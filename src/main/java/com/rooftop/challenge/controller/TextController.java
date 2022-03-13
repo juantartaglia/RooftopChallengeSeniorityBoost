@@ -72,7 +72,7 @@ public class TextController {
         }
         catch(Exception e) {
             logger.error("Error: save() ", e.getMessage());
-            throw new CustomException("Internal server error", true, HttpStatus.INTERNAL_SERVER_ERROR.value());
+            throw new CustomException("An error occurred when processing the text", true, HttpStatus.UNPROCESSABLE_ENTITY.value());
         }        
     }
 
@@ -88,9 +88,9 @@ public class TextController {
         }
         catch (Exception e) {
             logger.error("Error: getTextById() ", e.getMessage());
-            throw new CustomException("Internal server error", true, HttpStatus.INTERNAL_SERVER_ERROR.value());
+            throw new CustomException("An error occurred when processing the text", true, HttpStatus.UNPROCESSABLE_ENTITY.value());
         }
-        throw new CustomException("Item not found", true, HttpStatus.NOT_FOUND.value());
+        throw new CustomException("Text not found", true, HttpStatus.NOT_FOUND.value());
     }
 
 
@@ -115,11 +115,11 @@ public class TextController {
         }
         catch (Exception e) {
             logger.error("Error: getTextPaginated() ", e.getMessage());
-            throw new CustomException("Internal server error", true, HttpStatus.INTERNAL_SERVER_ERROR.value());
+            throw new CustomException("An error occurred when processing the text", true, HttpStatus.UNPROCESSABLE_ENTITY.value());
         }
 
         if (textList.isEmpty()) {
-            throw new CustomException("Item not found", true, HttpStatus.NOT_FOUND.value());
+            throw new CustomException("Text not found", true, HttpStatus.NOT_FOUND.value());
         }
         return new ResponseEntity<>(textList, HttpStatus.OK);
     }
@@ -138,9 +138,9 @@ public class TextController {
         }
         catch(Exception e) {
             logger.error("Error: deleteTextById() ", e.getMessage());
-            throw new CustomException("Internal server error", true, HttpStatus.INTERNAL_SERVER_ERROR.value());
+            throw new CustomException("An error occurred when processing the text", true, HttpStatus.UNPROCESSABLE_ENTITY.value());
         }
-        throw new CustomException("Item not found", true, HttpStatus.NOT_FOUND.value());
+        throw new CustomException("Text not found", true, HttpStatus.NOT_FOUND.value());
     }
 
 }
