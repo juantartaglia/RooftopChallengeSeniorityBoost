@@ -95,20 +95,20 @@ public class TextController {
 
 
     @GetMapping(BASE_URL)
-    public ResponseEntity<List<ResponseTextDTO>> getTextPaginated(@RequestParam(defaultValue = "1") Integer chars, @RequestParam(defaultValue="2") Integer page, @RequestParam Integer rpp) {
+    public ResponseEntity<List<ResponseTextDTO>> getTextPaginated(@RequestParam(required = false, defaultValue = "2") String chars, @RequestParam(required = false, defaultValue="1") String page, @RequestParam(required = false) String rpp) {
         List<ResponseTextDTO> textList = new ArrayList<ResponseTextDTO>();
         try {
             if (rpp == null) {
-                textRepository.findAllByCharsAndDeleted(chars, false).forEach(e -> {
+                textRepository.findAllByCharsAndDeleted(Integer.valueOf(chars), false).forEach(e -> {
                     textList.add(new ResponseTextDTO(e.getId(), e.getHash(), e.getChars(), e.getResult()));
                 });
             }
             else {
+                Integer rppInt = Integer.valueOf(rpp);
+                if (rppInt < 10 || rppInt > 100) rppInt = (rppInt < 10 ? 10 : 100);
 
-                if (rpp < 10 || rpp > 100) rpp = (rpp < 10 ? 10 : 100);
-
-                Pageable paging = PageRequest.of(page, rpp);
-                textRepository.findAllByCharsAndDeleted(chars, false, paging).forEach(e -> {
+                Pageable paging = PageRequest.of(Integer.valueOf(page), rppInt);
+                textRepository.findAllByCharsAndDeleted(Integer.valueOf(chars), false, paging).forEach(e -> {
                     textList.add(new ResponseTextDTO(e.getId(), e.getHash(), e.getChars(), e.getResult()));
                 });
             }
